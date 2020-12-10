@@ -20,7 +20,7 @@ function CounterApp() {
     let button = (
       <span>
         <input type="number" id="num"/>
-        <button>Add</button>
+        <button onClick={addCounter}>Add</button>
         <button>Set</button>
         <button>Delete</button>
         <button>Refresh</button>
@@ -64,6 +64,17 @@ function CounterList(props) {
       ))}
     </ol>
   );
+}
+
+function url() {
+  return window.the_url.value;
+}
+
+function addCounter(e){
+  const sel = window.getSelection();
+  let ele = sel.anchorNode;
+  console.log(ele);
+  console.log(ele.parentElement.textContent);
 }
 
 ReactDOM.render(
