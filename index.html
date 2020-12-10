@@ -18,18 +18,19 @@ function CounterApp() {
       return;
     }
     let button = (
-      <span>
-        <input type="number" id="num"/>
-        <button onClick={addCounter}>Add</button>
+      <div>
+        <button onClick={addCounter(text)}>Add</button>
         <button>Set</button>
         <button>Delete</button>
         <button>Refresh</button>
-      </span>
+      </div>
     );
+    let val = 0; //Add fetch val
     const newItem = {
       text,
+      val,
       button,
-      id: Date.now(),
+      id: (items.length + 1),
     };
     setItems(items.concat(newItem));
     setText('');
@@ -60,7 +61,11 @@ function CounterList(props) {
   return (
     <ol>
       {props.items.map(item => (
-        <li key={item.id}>{item.text} {item.button}</li>
+        <li key={item.id}>
+        <p><b>Name:</b> {item.text}</p>
+        <p><b>Count:</b> {item.val}</p>
+        {item.button}
+        </li>
       ))}
     </ol>
   );
@@ -70,11 +75,8 @@ function url() {
   return window.the_url.value;
 }
 
-function addCounter(e){
-  const sel = window.getSelection();
-  let ele = sel.anchorNode;
-  console.log(ele);
-  console.log(ele.parentElement.textContent);
+function addCounter(text){
+  console.log(text);
 }
 
 ReactDOM.render(
