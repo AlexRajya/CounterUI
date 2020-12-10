@@ -1,5 +1,5 @@
 <!doctype html>
-<title>Counter UI</title>
+<title>counter</title>
 <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
 <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
 <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
@@ -7,91 +7,94 @@
 <main></main>
 
 <script type="text/babel">
+  function CounterApp() {
+    const [items, setItems] = React.useState([]);
+    const [text, setText] = React.useState('');
 
-function CounterApp() {
-  const [items, setItems] = React.useState([]);
-  const [text, setText] = React.useState('');
-
-  React.useEffect(() => {
-    //update once per second (Check timing)
-    setInterval(updateCounters, 1000);
-  }, [ /* no dependencies */ ]);
-
-  function updateCounters(){
-    console.log("updated");
-    //todo
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    if (text.length === 0) {
-      return;
+    function handleSubmit(e) {
+      e.preventDefault();
+      if (text.length === 0) {
+        return;
+      }
+      const newItem = {
+        text,
+        id: Date.now(),
+      };
+      setItems(items.concat(newItem));
+      setText('');
     }
-    let button = (
+
+    return (
       <div>
-        <button onClick={addCounter(text)}>Add</button>
-        <button>Set</button>
-        <button>Delete</button>
-        <button>Refresh</button>
+        <h3>Counters:</h3>
+        <CounterList items={items} />
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="new-count">
+            New counter:
+          </label>
+          <input
+            id="new-count"
+            onChange={(e) => setText(e.target.value)}
+            value={text}
+          />
+          <button>
+            Add #{items.length + 1}
+          </button>
+        </form>
       </div>
     );
-    let val = 0; //Add fetch val
-    const newItem = {
-      text,
-      val,
-      button,
-      id: (items.length + 1),
-    };
-    setItems(items.concat(newItem));
-    setText('');
-    //add code to add register to api
   }
 
-  return (
-    <div>
-      <h3>Counters:</h3>
-      <CounterList items={items} />
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="new-todo">
-          Name of counter:
-        </label>
-        <input
-          id="new-todo"
-          onChange={(e) => setText(e.target.value)}
-          value={text}
-        />
-        <button>
-          Add #{items.length + 1}
-        </button>
-      </form>
-    </div>
+  function CounterList(props) {
+    return (
+      <ol>
+        {props.items.map(item => (
+          <li key={item.id}>{item.text} <Counter item={item}/></li>
+        ))}
+      </ol>
+    );
+  }
+
+  function Counter(props) {
+    const [clicks, setClicks] = React.useState(0);
+    function add(e){
+      let ele = e.target.parentElement;
+      let name = ele.id;
+      let val = (post(name)).then(function(result) {
+        setClicks(result);
+      }, function(err) {
+        console.log(err);
+      });
+
+    }
+    return (
+      <div id={props.item.text}>
+        <p>Clicks: {clicks}</p>
+        <button onClick={add}>+1</button>
+        <button onClick={add}>Set</button>
+        <button onClick={add}>Delete</button>
+        <button onClick={add}>Refresh</button>
+      </div>
+    );
+  }
+
+  function url() {
+    return window.location.href;
+  }
+
+  async function post(name){
+    let newval = "1";
+    try {
+      const response = await fetch(url() + `/api/${encodeURIComponent(name)}`, { method: 'POST', body: newval });
+      const text = response.text();
+      return text;
+    }catch(e){
+      return 0;
+    }
+  }
+
+  ReactDOM.render(
+    <CounterApp />,
+    document.querySelector('main'),
   );
-}
-
-function CounterList(props) {
-  return (
-    <ol>
-      {props.items.map(item => (
-        <li key={item.id}>
-        <p><b>Name:</b> {item.text}</p>
-        <p><b>Count:</b> {item.val}</p>
-        {item.button}
-        </li>
-      ))}
-    </ol>
-  );
-}
-
-function url() {
-  return window.the_url.value;
-}
-
-function addCounter(text){
-  console.log(text);
-}
-
-ReactDOM.render(
-  <CounterApp />,
-  document.querySelector('main'),
-);
 </script>
