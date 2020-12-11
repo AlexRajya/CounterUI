@@ -57,38 +57,41 @@
 
   function Counter(props) {
     const [clicks, setClicks] = React.useState(0);
+    const name = props.item.text;
 
     React.useEffect(() => {
       //update once per second (Check timing)
-      setInterval(get, 1000);
-
+      setInterval(getCount, 1000);
     }, [ /* no dependencies */ ]);
 
-    function get(){
-      let val = (get(props.item.text)).then(function(result) {
+    function getCount(){
+      let val = (get(name)).then(function(result) {
         setClicks(result);
       }, function(err) {
         console.log(err);
       });
     }
 
-    function add(e){
-      let ele = e.target.parentElement;
-      let name = ele.id;
+    function addCount(e){
       let val = (post(name)).then(function(result) {
         setClicks(result);
       }, function(err) {
         console.log(err);
       });
-
     }
+
+    function deleteCount(e){
+      del(name);
+      setClicks(0);
+    }
+
     return (
-      <div id={props.item.text}>
+      <div id={name}>
         <p>Count: {clicks}</p>
-        <button onClick={add}>+1</button>
-        <button onClick={add}>Set</button>
-        <button onClick={add}>Delete</button>
-        <button onClick={get}>Refresh</button>
+        <button onClick={addCount}>+1</button>
+        <button onClick={addCount}>Set</button>
+        <button onClick={deleteCount}>Delete</button>
+        <button onClick={getCount}>Refresh</button>
       </div>
     );
   }
@@ -117,6 +120,17 @@
     }catch(e){
       console.log(e);
       return 0;
+    }
+  }
+
+  async function del(name){
+    try {
+      const response = await fetch(url() + `/api/${encodeURIComponent(name)}`, { method: 'DELETE' });
+      if (response.ok) {
+        //
+      }
+    }catch(e){
+      console.log(e);
     }
   }
 
