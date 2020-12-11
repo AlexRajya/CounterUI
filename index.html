@@ -57,6 +57,7 @@
 
   function Counter(props) {
     const [clicks, setClicks] = React.useState(0);
+    const [num, setNum] = React.useState(0);
     const name = props.item.text;
 
     React.useEffect(() => {
@@ -86,7 +87,7 @@
     }
 
     function setCount(e){
-      let val = (put(name)).then(function(result) {
+      let val = (put(name, num)).then(function(result) {
         setClicks(result);
       }, function(err) {
         console.log(err);
@@ -97,6 +98,11 @@
       <div id={name}>
         <p>Count: {clicks}</p>
         <button onClick={addCount}>+1</button>
+        <input type="number"
+          id="NumToSet"
+          onChange={(e) => setNum(e.target.value)}
+          value={num}
+        />
         <button onClick={setCount}>Set</button>
         <button onClick={deleteCount}>Delete</button>
         <button onClick={getCount}>Refresh</button>
@@ -131,10 +137,10 @@
     }
   }
 
-  async function put(name){
-    let newval = "1";
+  async function put(name, num){
+    num = num.toString();
     try {
-      const response = await fetch(url() + `/api/${encodeURIComponent(name)}`, { method: 'PUT', body: newval });
+      const response = await fetch(url() + `/api/${encodeURIComponent(name)}`, { method: 'PUT', body: num });
       const text = response.text();
       return text;
     }catch(e){
