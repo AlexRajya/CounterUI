@@ -11,8 +11,10 @@
     const [items, setItems] = React.useState([]);
     const [text, setText] = React.useState('');
 
+    //Create a new item when form is submitted
     function handleSubmit(e) {
       e.preventDefault();
+      //return if no name provided
       if (text.length === 0) {
         return;
       }
@@ -21,6 +23,7 @@
         id: Date.now(),
       };
       setItems(items.concat(newItem));
+      //reset text to allow for new name to be entered
       setText('');
     }
 
@@ -45,6 +48,7 @@
     );
   }
 
+  //For each item, assign a counter component and display in ordered list
   function CounterList(props) {
     return (
       <ol>
@@ -55,6 +59,7 @@
     );
   }
 
+  //counter component
   function Counter(props) {
     const [clicks, setClicks] = React.useState(0);
     const [num, setNum] = React.useState(0);
@@ -67,24 +72,24 @@
 
     function getCount(){
       get(name).then((result) => {
-        setClicks(result);
+        setClicks(result);//update current count
       });
     }
 
     function addCount(e){
       post(name).then((result) => {
-        setClicks(result);
+        setClicks(result);//update current count
       });
     }
 
     function deleteCount(e){
       del(name);
-      setClicks(0);
+      setClicks(0);//update current count
     }
 
     function setCount(e){
       put(name, num).then((result) => {
-        setClicks(result);
+        setClicks(result);//update current count
       });
     }
 
@@ -105,9 +110,10 @@
   }
 
   function url() {
-    return window.location.href;
+    return window.location.href;//get current url
   }
 
+  //use post to add num to the counter
   async function post(name){
     let addVal = "1";
     try {
@@ -120,6 +126,7 @@
     }
   }
 
+  //use get to get val of named counter
   async function get(name){
     try {
       const response = await fetch(url() + `/api/${encodeURIComponent(name)}`, { method: 'GET' });
@@ -131,6 +138,7 @@
     }
   }
 
+  //use put to set the val of a counter
   async function put(name, num){
     num = num.toString();
     try {
@@ -143,6 +151,7 @@
     }
   }
 
+  //use del to delete a counter from datastore
   async function del(name){
     try {
       const response = await fetch(url() + `/api/${encodeURIComponent(name)}`, { method: 'DELETE' });
