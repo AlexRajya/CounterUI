@@ -91,13 +91,13 @@
     return (
       <div id={name}>
         <p>Count: {clicks}</p>
-        <button onClick={addCount}>+1</button>
         <input type="number"
           id="NumToSet"
           onChange={(e) => setNum(e.target.value)}
           value={num}
         />
         <button onClick={setCount}>Set</button>
+        <button onClick={addCount}>+1</button>
         <button onClick={deleteCount}>Delete</button>
         <button onClick={getCount}>Refresh</button>
       </div>
