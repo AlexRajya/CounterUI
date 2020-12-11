@@ -85,11 +85,19 @@
       setClicks(0);
     }
 
+    function setCount(e){
+      let val = (put(name)).then(function(result) {
+        setClicks(result);
+      }, function(err) {
+        console.log(err);
+      });
+    }
+
     return (
       <div id={name}>
         <p>Count: {clicks}</p>
         <button onClick={addCount}>+1</button>
-        <button onClick={addCount}>Set</button>
+        <button onClick={setCount}>Set</button>
         <button onClick={deleteCount}>Delete</button>
         <button onClick={getCount}>Refresh</button>
       </div>
@@ -115,6 +123,18 @@
   async function get(name){
     try {
       const response = await fetch(url() + `/api/${encodeURIComponent(name)}`, { method: 'GET' });
+      const text = response.text();
+      return text;
+    }catch(e){
+      console.log(e);
+      return 0;
+    }
+  }
+
+  async function put(name){
+    let newval = "1";
+    try {
+      const response = await fetch(url() + `/api/${encodeURIComponent(name)}`, { method: 'PUT', body: newval });
       const text = response.text();
       return text;
     }catch(e){
