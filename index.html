@@ -1,5 +1,5 @@
 <!doctype html>
-<title>counter</title>
+<title>Counter API UI</title>
 <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
 <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
 <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
@@ -61,23 +61,19 @@
     const name = props.item.text;
 
     React.useEffect(() => {
-      //update once per second (Check timing)
+      //update once per second (1000ms = 1s)
       setInterval(getCount, 1000);
     }, [ /* no dependencies */ ]);
 
     function getCount(){
-      let val = (get(name)).then(function(result) {
+      get(name).then((result) => {
         setClicks(result);
-      }, function(err) {
-        console.log(err);
       });
     }
 
     function addCount(e){
-      let val = (post(name)).then(function(result) {
+      post(name).then((result) => {
         setClicks(result);
-      }, function(err) {
-        console.log(err);
       });
     }
 
@@ -87,10 +83,8 @@
     }
 
     function setCount(e){
-      let val = (put(name, num)).then(function(result) {
+      put(name, num).then((result) => {
         setClicks(result);
-      }, function(err) {
-        console.log(err);
       });
     }
 
@@ -115,9 +109,9 @@
   }
 
   async function post(name){
-    let newval = "1";
+    let addVal = "1";
     try {
-      const response = await fetch(url() + `/api/${encodeURIComponent(name)}`, { method: 'POST', body: newval });
+      const response = await fetch(url() + `/api/${encodeURIComponent(name)}`, { method: 'POST', body: addVal });
       const text = response.text();
       return text;
     }catch(e){
@@ -152,9 +146,6 @@
   async function del(name){
     try {
       const response = await fetch(url() + `/api/${encodeURIComponent(name)}`, { method: 'DELETE' });
-      if (response.ok) {
-        //
-      }
     }catch(e){
       console.log(e);
     }
