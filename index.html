@@ -7,6 +7,30 @@
   button {
     margin: 0px 5px;
   }
+  li {
+    margin: 10px;
+  }
+  h1 {
+    margin: 0;
+    padding: 10px;
+    background-color: rgb(181, 181, 181);
+  }
+  h3 {
+    margin: 0;
+    padding: 20px;
+  }
+  label{
+    margin: 10px;
+    font-size: 120%;
+  }
+  form {
+    background-color: rgb(206, 206, 206);
+    padding: 10px;
+  }
+  body {
+    margin: 0;
+    background-color: rgb(216, 216, 216);
+  }
 </style>
 <main></main>
 
@@ -60,11 +84,11 @@
     //return CounterApp and it's components
     return (
       <div>
-        <h3>Counters:</h3>
-        <CounterList items={items} />
+        <h1>Counter API User Interface:</h1>
+
         <form onSubmit={handleSubmit}>
           <label htmlFor="new-count">
-            New counter:
+            <b>New counter:</b>
           </label>
           <input
             id="new-count"
@@ -75,6 +99,8 @@
             Add #{items.length + 1}
           </button>
         </form>
+        <h3> <b>Counters:</b> </h3>
+        <CounterList items={items} />
       </div>
     );
   }
