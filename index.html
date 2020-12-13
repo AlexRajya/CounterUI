@@ -62,30 +62,10 @@
       setText('');
     }
 
-    //For each item, assign a counter component and display in ordered list
-    function CounterList(props) {
-      return (
-        <ol>
-          {props.items.map(item => (
-            <li key={item.id}>
-            <b><u>{item.text}</u></b>
-            <span>
-              <button onClick={() => handleRemove(item.text)}>
-                Remove
-              </button>
-            </span>
-            <Counter item={item}/>
-            </li>
-          ))}
-        </ol>
-      );
-    }
-
     //return CounterApp and it's components
     return (
       <div>
         <h1>Counter API User Interface:</h1>
-
         <form onSubmit={handleSubmit}>
           <label htmlFor="new-count">
             <b>New counter:</b>
@@ -100,8 +80,27 @@
           </button>
         </form>
         <h3> <b>Counters:</b> </h3>
-        <CounterList items={items} />
+        <CounterList items={items} action={handleRemove}/>
       </div>
+    );
+  }
+
+  //For each item, assign a counter component and display in ordered list
+  function CounterList(props) {
+    return (
+      <ol>
+        {props.items.map(item => (
+          <li key={item.id}>
+          <b><u>{item.text}</u></b>
+          <span>
+            <button onClick={() => props.action(item.text)}>
+              Remove
+            </button>
+          </span>
+          <Counter item={item}/>
+          </li>
+        ))}
+      </ol>
     );
   }
 
