@@ -2,7 +2,7 @@
 This is a user interface which makes use of a simple counter API. The interface was made with reactJS.
 
 #Installation:
-1. Copy index.html in to the static directory of the API, replacing any existing index.html
+1. Copy index.html and style.css in to the static directory of the API, replacing any existing index.html
 2. Deploy app with 'gcloud deploy app' in the cloud shell when in main API directory
 3. View the UI on the url provided with 'gcloud app browse -s serviceName' in the cloud shell
 
